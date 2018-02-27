@@ -20,6 +20,10 @@ class ObservationForm extends React.Component {
       temperature: this.state.temperature,
       timestamp: new Date()
     })
+    this.setState({
+      location: '',
+      temperature: ''
+    })
   }
 
   render() {
