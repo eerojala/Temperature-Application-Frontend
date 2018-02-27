@@ -18,7 +18,14 @@ class App extends React.Component {
       ],
       observations: []
     }
-  } 
+  }
+
+  newObservation = (observation) => {
+    observation.id = (Math.random() * 100000).toFixed(0)
+    this.setState({
+      observations: this.state.observations.concat(observation)
+    })
+  }
 
   render() {
     return (
@@ -28,7 +35,10 @@ class App extends React.Component {
           <div>
             <NavigationMenu />
             <Route exact path="/locations" render={() => <LocationList locations={this.state.locations} />} />
-            <Route path="/createNew" render={() => <ObservationForm />} />
+            <Route 
+              path="/createNew" 
+              render={() => <ObservationForm locations={this.state.locations} newObservation={this.newObservation} />} 
+            />
           </div>
         </Router>
         <div>
