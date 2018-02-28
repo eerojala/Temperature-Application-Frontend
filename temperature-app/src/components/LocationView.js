@@ -1,13 +1,13 @@
 import React from 'react'
 
-const LocationView = ({ location, observations }) => {
+const LocationView = ({ location }) => {
   return (
     <div>
-      <h2>{location.name}</h2>
+      <h2>{location.name}: {location.latitude}, {location.longitude}</h2>
       <h3>Temperature observations</h3>
       <ul>
-        {observations.map(observation => <li key={observation.id}>
-          {observation.timestamp}: {observation.temperature}
+        {location.observations.map(observation => <li key={observation._id}>
+          {observation.date}: {observation.temperature}
         </li>)}
       </ul>
     </div>

@@ -6,7 +6,7 @@ const NavigationMenu = () => {
     <div>
       <Link to="/locations">Locations</Link>&nbsp;
       <Link to="/createNew">Create a new observation</Link>&nbsp;
-  </div>
+    </div>
   )
 }
 

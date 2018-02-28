@@ -1,74 +1,48 @@
 import React from 'react'
+import { Container } from 'semantic-ui-react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+
+import locationService from './services/locations'
+import observationService from './services/observations'
+
 import NavigationMenu from './components/NavigationMenu'
 import LocationList from './components/LocationList'
 import ObservationForm from './components/ObservationForm'
 import LocationView from './components/LocationView'
 import Footer from './components/Footer'
 
-const generateId = () => {
-  return (Math.random() * 100000).toFixed(0)
-}
-
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      locations: [
-        {
-          name: 'Amsterdam',
-          id: generateId()
-        },
-        {
-          name: 'Dubai',
-          id: generateId()
-        },
-        {
-          name: 'Helsinki',
-          id: generateId()
-        },
-        {
-          name: 'New York',
-          id: generateId()
-        },
-        {
-          name: 'Tokyo',
-          id: generateId()
-        }
-      ],
-      observations: []
+      locations: []
     }
   }
 
-  newObservation = (observation) => {
-    observation.id = generateId()
-    this.setState({
-      observations: this.state.observations.concat(observation)
-    })
+  componentDidMount() {
+    locationService.getAll().then(locations => this.setState({ locations }))
   }
 
-  locationById = (id) => {
-    let location
-    console.log(id)
-    for (let i = 0; i < this.state.locations.length; i++) {
-      const temp = this.state.locations[i]
-      console.log(temp.id)
-      if (temp.id === id) {
-        location = temp
-      }
+  newObservation = async (observation) => {
+    try {
+      const newObservation = await observationService.create(observation)
+      
+      const location = this.locationById(observation.location)
+      location.observations = location.observations.concat(newObservation)
+      const locations = this.state.locations.map(l => l.id === location.id ? location : l)
+      this.setState({ locations })
+    } catch (exception) {
+      console.log('failed')
     }
-
-    return location
   }
 
-  observationsFromLocation = (locationId) => {
-    const location = this.locationById(locationId)
-    return this.state.observations.filter(observation => observation.location === location.name)
+  locationById = (locationId) => {
+    return this.state.locations.find(location => location.id === locationId)
   }
 
   render() {
     return (
-      <div>
+      <Container>
         <h1>Temperature observation app</h1>
         <Router>
           <div>
@@ -78,12 +52,13 @@ class App extends React.Component {
               path="/createNew" 
               render={() => <ObservationForm locations={this.state.locations} newObservation={this.newObservation} />} 
             />
+            <Route exact path="/locations/:id" render={({match}) => <LocationView location={this.locationById(match.params.id)}/>} />
           </div>
         </Router>
         <div>
           <Footer />
         </div>
-      </div>
+      </Container>
     )
   }
 }
