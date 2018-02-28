@@ -22,7 +22,7 @@ class ObservationForm extends React.Component {
     event.preventDefault()
     this.props.newObservation({
       location: this.state.location,
-      temperature: this.state.temperature,
+      temperature: Number(this.state.temperature),
       date: new Date()
     })
     this.setState({

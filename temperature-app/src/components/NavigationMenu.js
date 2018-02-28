@@ -1,12 +1,17 @@
 import React from 'react'
+import { Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 
 const NavigationMenu = () => {
   return (
-    <div>
-      <Link to="/locations">Locations</Link>&nbsp;
-      <Link to="/createNew">Create a new observation</Link>&nbsp;
-    </div>
+    <Menu inverted>
+      <Menu.Item link>
+        <Link to="/locations">Locations</Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to="/createNew">Create a new observation</Link>
+      </Menu.Item>
+    </Menu>
   )
 }
 

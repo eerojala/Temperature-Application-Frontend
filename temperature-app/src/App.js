@@ -6,6 +6,7 @@ import locationService from './services/locations'
 import observationService from './services/observations'
 
 import NavigationMenu from './components/NavigationMenu'
+import Notifications from './components/Notifications'
 import LocationList from './components/LocationList'
 import ObservationForm from './components/ObservationForm'
 import LocationView from './components/LocationView'
@@ -15,7 +16,9 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      locations: []
+      locations: [],
+      successMessage: null,
+      errorMessage: null
     }
   }
 
@@ -30,9 +33,20 @@ class App extends React.Component {
       const location = this.locationById(observation.location)
       location.observations = location.observations.concat(newObservation)
       const locations = this.state.locations.map(l => l.id === location.id ? location : l)
-      this.setState({ locations })
+      this.setState({ 
+        locations,
+        successMessage: 'Successfully added a new temperature observation!'
+      })
+
+      setTimeout(() => {
+        this.setState({ successMessage: null })
+      })
     } catch (exception) {
-      console.log('failed')
+      this.setState({ errorMessage: 'You must select a location and give temperature as a number' })
+
+      setTimeout(() => {
+        this.setState({ errorMessage: null })
+      }, 5000)
     }
   }
 
@@ -47,6 +61,7 @@ class App extends React.Component {
         <Router>
           <div>
             <NavigationMenu />
+            <Notifications successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
             <Route exact path="/locations" render={() => <LocationList locations={this.state.locations} />} />
             <Route 
               path="/createNew" 
