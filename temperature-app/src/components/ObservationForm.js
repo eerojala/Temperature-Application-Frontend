@@ -25,10 +25,13 @@ class ObservationForm extends React.Component {
       temperature: Number(this.state.temperature),
       date: new Date()
     })
+
     this.setState({
       location: '',
       temperature: ''
     })
+    
+    this.props.history.push('/locations')
   }
 
 

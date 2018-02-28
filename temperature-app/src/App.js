@@ -31,8 +31,10 @@ class App extends React.Component {
       const newObservation = await observationService.create(observation)
       
       const location = this.locationById(observation.location)
+      newObservation._id = newObservation.id
       location.observations = location.observations.concat(newObservation)
       const locations = this.state.locations.map(l => l.id === location.id ? location : l)
+      
       this.setState({ 
         locations,
         successMessage: 'Successfully added a new temperature observation!'
@@ -65,7 +67,9 @@ class App extends React.Component {
             <Route exact path="/locations" render={() => <LocationList locations={this.state.locations} />} />
             <Route 
               path="/createNew" 
-              render={() => <ObservationForm locations={this.state.locations} newObservation={this.newObservation} />} 
+              render={({history}) => <ObservationForm 
+                locations={this.state.locations} newObservation={this.newObservation} history={history}
+              />} 
             />
             <Route exact path="/locations/:id" render={({match}) => <LocationView location={this.locationById(match.params.id)}/>} />
           </div>
