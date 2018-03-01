@@ -45,7 +45,9 @@ class App extends React.Component {
         this.setState({ successMessage: null })
       }, 5000)
     } catch (exception) {
-      this.setState({ errorMessage: 'You must select a location and give temperature as a number which is between -90 and 60' })
+      this.setState({ 
+        errorMessage: 'You must select a location and give temperature as a number which is between -90 and 60. Separate decimals with a dot.' 
+      })
 
       setTimeout(() => {
         this.setState({ errorMessage: null })
