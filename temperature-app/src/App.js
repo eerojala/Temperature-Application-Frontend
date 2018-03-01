@@ -44,7 +44,7 @@ class App extends React.Component {
         this.setState({ successMessage: null })
       }, 5000)
     } catch (exception) {
-      this.setState({ errorMessage: 'You must select a location and give temperature as a number' })
+      this.setState({ errorMessage: 'You must select a location and give temperature as a number which is between -90 and 60' })
 
       setTimeout(() => {
         this.setState({ errorMessage: null })
@@ -67,9 +67,7 @@ class App extends React.Component {
             <Route exact path="/locations" render={() => <LocationList locations={this.state.locations} />} />
             <Route 
               path="/createNew" 
-              render={({history}) => <ObservationForm 
-                locations={this.state.locations} newObservation={this.newObservation} history={history}
-              />} 
+              render={() => <ObservationForm locations={this.state.locations} newObservation={this.newObservation} />} 
             />
             <Route exact path="/locations/:id" render={({match}) => <LocationView location={this.locationById(match.params.id)}/>} />
           </div>

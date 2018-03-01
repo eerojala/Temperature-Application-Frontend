@@ -18,22 +18,19 @@ class ObservationForm extends React.Component {
     this.setState({ temperature: event.target.value })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault()
-    this.props.newObservation({
+
+    await this.props.newObservation({
       location: this.state.location,
-      temperature: Number(this.state.temperature),
+      temperature: this.state.temperature === '' ? 'empty' : Number(this.state.temperature),
       date: new Date()
     })
 
     this.setState({
-      location: '',
       temperature: ''
     })
-    
-    this.props.history.push('/locations')
-  }
-
+ }
 
   render() {
     const options = this.props.locations.map(location => ({
@@ -51,7 +48,7 @@ class ObservationForm extends React.Component {
             <Dropdown placeholder='Select location' fluid search selection options={options} onChange={this.handleLocationChange}/>
           </Form.Field>
           <Form.Field>
-            <label>Temperature</label>
+            <label>Temperature (in celcius)</label>
             <input name='temperature' value={this.state.temperature} onChange={this.handleTemperatureChange} /> 
           </Form.Field>
           <Button type='submit'>Create</Button>
