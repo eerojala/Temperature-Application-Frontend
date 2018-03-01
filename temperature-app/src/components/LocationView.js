@@ -17,6 +17,10 @@ const getColdestRecentTemperature = (recentObservations) => {
 }
 
 const LocationView = ({ location }) => {
+  if (!location) {
+    return null
+  }
+
   const sortedObservations = location.observations.sort((a, b) => {
     return (a.date > b.date) ? -1 : (a.date < b.date) ? 1 : 0
   })

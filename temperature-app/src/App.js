@@ -7,6 +7,7 @@ import observationService from './services/observations'
 
 import NavigationMenu from './components/NavigationMenu'
 import Notifications from './components/Notifications'
+import Home from './components/Home'
 import LocationList from './components/LocationList'
 import ObservationForm from './components/ObservationForm'
 import LocationView from './components/LocationView'
@@ -64,6 +65,7 @@ class App extends React.Component {
           <div>
             <NavigationMenu />
             <Notifications successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
+            <Route exact path="/" render={() => <Home />} />
             <Route exact path="/locations" render={() => <LocationList locations={this.state.locations} />} />
             <Route 
               path="/createNew" 

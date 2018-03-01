@@ -6,6 +6,9 @@ const NavigationMenu = () => {
   return (
     <Menu inverted>
       <Menu.Item link>
+        <Link to="/">Home</Link>
+      </Menu.Item>
+      <Menu.Item link>
         <Link to="/locations">Locations</Link>
       </Menu.Item>
       <Menu.Item link>
